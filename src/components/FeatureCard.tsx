@@ -1,9 +1,9 @@
 
-import { LucideIcon } from "lucide-react";
+import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface FeatureCardProps {
-  icon: LucideIcon;
+  icon: ReactNode;
   title: string;
   description: string;
   className?: string;
@@ -11,7 +11,7 @@ interface FeatureCardProps {
 }
 
 const FeatureCard = ({
-  icon: Icon,
+  icon,
   title,
   description,
   className,
@@ -30,7 +30,7 @@ const FeatureCard = ({
           iconClassName
         )}
       >
-        <Icon className="h-6 w-6" />
+        {icon}
       </div>
       <h3 className="text-lg font-semibold tracking-tight mb-2">{title}</h3>
       <p className="text-muted-foreground text-sm">{description}</p>

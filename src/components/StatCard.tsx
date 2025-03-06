@@ -1,6 +1,6 @@
 
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 
 interface StatCardProps {
   value: number;
@@ -9,7 +9,7 @@ interface StatCardProps {
   suffix?: string;
   className?: string;
   duration?: number;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }
 
 const StatCard = ({
