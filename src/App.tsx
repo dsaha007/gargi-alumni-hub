@@ -11,6 +11,10 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserManagement from "./pages/UserManagement";
 import AdminProfile from "./pages/AdminProfile";
 import NotFound from "./pages/NotFound";
+import About from "./pages/About";
+import Events from "./pages/Events";
+import Gallery from "./pages/Gallery";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +26,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
