@@ -11,13 +11,11 @@ const AdminDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is authenticated
     const isAuthenticated = localStorage.getItem("adminAuth") === "true";
     if (!isAuthenticated) {
       navigate("/admin/login");
       return;
     }
-    
     setIsLoading(false);
   }, [navigate]);
 
@@ -47,8 +45,8 @@ const AdminDashboard = () => {
           <StatCard 
             icon={<CreditCard className="h-8 w-8 text-amber-500" />}
             value={240000}
-            prefix="₹"
             label="Registration Fees"
+            prefix="₹"
             suffix="This year"
           />
           <StatCard 
@@ -62,12 +60,9 @@ const AdminDashboard = () => {
           <Card>
             <CardHeader>
               <CardTitle>Recent Registrations</CardTitle>
-              <CardDescription>
-                New alumni registrations in the last 30 days
-              </CardDescription>
+              <CardDescription>New alumni registrations in the last 30 days</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* Chart would go here - we'll implement this with recharts later */}
               <div className="h-72 bg-gray-100 rounded flex items-center justify-center">
                 Registration Chart Placeholder
               </div>
@@ -77,12 +72,9 @@ const AdminDashboard = () => {
           <Card>
             <CardHeader>
               <CardTitle>Batch Distribution</CardTitle>
-              <CardDescription>
-                Alumni distribution by graduation year
-              </CardDescription>
+              <CardDescription>Alumni distribution by graduation year</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* Chart would go here - we'll implement this with recharts later */}
               <div className="h-72 bg-gray-100 rounded flex items-center justify-center">
                 Batch Distribution Chart Placeholder
               </div>

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "@/components/AdminSidebar";
@@ -15,13 +16,11 @@ const UserManagement = () => {
   const [filteredData, setFilteredData] = useState(mockAlumniData);
 
   useEffect(() => {
-    // Check if user is authenticated
     const isAuthenticated = localStorage.getItem("adminAuth") === "true";
     if (!isAuthenticated) {
       navigate("/admin/login");
       return;
     }
-    
     setIsLoading(false);
   }, [navigate]);
 
@@ -51,12 +50,10 @@ const UserManagement = () => {
       <div className="flex-1 p-6 lg:p-10 overflow-auto">
         <h1 className="text-2xl font-bold mb-6">User Management</h1>
         
-        <Card className="mb-6">
+        <Card>
           <CardHeader>
             <CardTitle>Alumni Database</CardTitle>
-            <CardDescription>
-              View and manage all registered alumni members
-            </CardDescription>
+            <CardDescription>View and manage all registered alumni members</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -84,7 +81,7 @@ const UserManagement = () => {
               </div>
             </div>
             
-            <UserTable filteredData={filteredData} />
+            <UserTable data={filteredData} />
           </CardContent>
         </Card>
       </div>
