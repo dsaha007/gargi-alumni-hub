@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
+// Removed the optional props to simplify integration
 const HeroSection = () => {
   const scrollToNextSection = () => {
     const nextSection = document.getElementById("about");

@@ -14,12 +14,7 @@ const Index = () => {
       <Navbar />
       
       <main className="flex-grow">
-        <HeroSection 
-          title="GMIT Alumni Network"
-          subtitle="Connect, Collaborate, and Celebrate the Gargi Memorial Institute of Technology Community"
-          ctaText="Join the Network"
-          ctaLink="/register"
-        />
+        <HeroSection />
         
         <section className="py-16 px-4 bg-white">
           <div className="container mx-auto">
@@ -61,18 +56,21 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <StatCard 
                 icon={<Users className="h-10 w-10 text-primary" />}
-                value="5000+"
+                value={5000}
                 label="Alumni Members"
+                suffix="+"
               />
               <StatCard 
                 icon={<GraduationCap className="h-10 w-10 text-primary" />}
-                value="50+"
+                value={50}
                 label="Countries Represented"
+                suffix="+"
               />
               <StatCard 
                 icon={<Trophy className="h-10 w-10 text-primary" />}
-                value="200+"
+                value={200}
                 label="Events Per Year"
+                suffix="+"
               />
             </div>
           </div>

@@ -27,7 +27,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <AdminSidebar activePage="dashboard" />
+      <AdminSidebar />
       
       <div className="flex-1 p-6 lg:p-10 overflow-auto">
         <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -35,24 +35,25 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard 
             icon={<Users className="h-8 w-8 text-primary" />}
-            value="1,234"
+            value={1234}
             label="Total Alumni"
           />
           <StatCard 
             icon={<UserPlus className="h-8 w-8 text-green-500" />}
-            value="56"
+            value={56}
             label="New Registrations"
-            subtext="This month"
+            suffix="This month"
           />
           <StatCard 
             icon={<CreditCard className="h-8 w-8 text-amber-500" />}
-            value="₹2.4L"
+            value={240000}
+            prefix="₹"
             label="Registration Fees"
-            subtext="This year"
+            suffix="This year"
           />
           <StatCard 
             icon={<Calendar className="h-8 w-8 text-blue-500" />}
-            value="12"
+            value={12}
             label="Upcoming Events"
           />
         </div>

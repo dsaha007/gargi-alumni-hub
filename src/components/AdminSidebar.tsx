@@ -37,6 +37,7 @@ const navItems = [
   },
 ];
 
+// Remove the activePage prop as we're using React Router's active state
 const AdminSidebar = () => {
   const [expanded, setExpanded] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "@/components/AdminSidebar";
@@ -53,7 +52,7 @@ const AdminProfile = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <AdminSidebar activePage="profile" />
+      <AdminSidebar />
       
       <div className="flex-1 p-6 lg:p-10 overflow-auto">
         <h1 className="text-2xl font-bold mb-6">My Profile</h1>

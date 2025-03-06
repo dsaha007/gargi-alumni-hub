@@ -9,6 +9,7 @@ interface StatCardProps {
   suffix?: string;
   className?: string;
   duration?: number;
+  icon?: React.ReactNode;
 }
 
 const StatCard = ({
@@ -18,6 +19,7 @@ const StatCard = ({
   suffix = "",
   className,
   duration = 2000,
+  icon
 }: StatCardProps) => {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -71,6 +73,7 @@ const StatCard = ({
         className
       )}
     >
+      {icon && <div className="flex justify-center mb-3">{icon}</div>}
       <div className="text-3xl md:text-4xl font-bold mb-2 text-primary">
         {prefix}
         {count.toLocaleString()}

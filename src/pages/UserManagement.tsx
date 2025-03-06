@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "@/components/AdminSidebar";
@@ -47,7 +46,7 @@ const UserManagement = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <AdminSidebar activePage="users" />
+      <AdminSidebar />
       
       <div className="flex-1 p-6 lg:p-10 overflow-auto">
         <h1 className="text-2xl font-bold mb-6">User Management</h1>
@@ -85,7 +84,7 @@ const UserManagement = () => {
               </div>
             </div>
             
-            <UserTable data={filteredData} />
+            <UserTable filteredData={filteredData} />
           </CardContent>
         </Card>
       </div>
