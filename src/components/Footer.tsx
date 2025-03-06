@@ -94,12 +94,12 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-muted-foreground mr-2 mt-0.5" />
-                <span className="text-muted-foreground text-sm">123 University Avenue, Kolkata, West Bengal, India</span>
+                <span className="text-muted-foreground text-sm">Balarampur, Mouza Beralia, Baruipur, Kolkata - 700144</span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 text-muted-foreground mr-2" />
-                <a href="tel:+919876543210" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-                  +91 98765 43210
+                <a href="tel:+918336942309" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                  +91 83369 42309
                 </a>
               </li>
               <li className="flex items-center">
@@ -114,7 +114,7 @@ const Footer = () => {
         
         <div className="border-t border-muted mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm">
-            © {currentYear} Gargi Memorial Institute of Technology Alumni Association. All rights reserved.
+            © {currentYear} GMIT Alumni Association. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
             <Link to="/admin/login" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
