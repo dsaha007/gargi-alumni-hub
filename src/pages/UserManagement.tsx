@@ -81,7 +81,7 @@ const UserManagement = () => {
               </div>
             </div>
             
-            <UserTable data={filteredData} />
+            <UserTable filteredData={filteredData} />
           </CardContent>
         </Card>
       </div>
