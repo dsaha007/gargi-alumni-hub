@@ -1,10 +1,10 @@
 
 import { Button } from "@/components/ui/button";
-import { HeroSection } from "@/components/HeroSection";
-import { FeatureCard } from "@/components/FeatureCard";
-import { StatCard } from "@/components/StatCard";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import HeroSection from "@/components/HeroSection";
+import FeatureCard from "@/components/FeatureCard";
+import StatCard from "@/components/StatCard";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { ArrowRight, GraduationCap, Users, Calendar, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 

@@ -1,9 +1,9 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AdminSidebar } from "@/components/AdminSidebar";
+import AdminSidebar from "@/components/AdminSidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { StatCard } from "@/components/StatCard";
+import StatCard from "@/components/StatCard";
 import { UserPlus, Users, CreditCard, Calendar } from "lucide-react";
 
 const AdminDashboard = () => {
