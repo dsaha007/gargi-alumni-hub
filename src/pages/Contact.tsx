@@ -224,7 +224,7 @@ const Contact = () => {
           className="rounded-lg overflow-hidden shadow-sm h-[400px]"
         >
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3686.2874409097893!2d88.41999661495996!3d22.483984985226364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0271a3412cea87%3A0x25c51cc9d476462b!2sGargi%20Memorial%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1624428981410!5m2!1sen!2sin" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.353335670414!2d88.4383665751207!3d22.378033479630833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a026d0097533aed%3A0xe18407a46f2e97f6!2sGargi%20Memorial%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1741278972177!5m2!1sen!2sin"
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 
