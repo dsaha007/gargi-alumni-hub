@@ -1,6 +1,9 @@
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 // Define the gallery categories and images
 const galleryData = {
@@ -49,6 +52,9 @@ const galleryData = {
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedImage, setSelectedImage] = useState<null | { src: string; alt: string }>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const categories = [
     { id: "all", label: "All" },
@@ -61,103 +67,195 @@ const Gallery = () => {
     { id: "awards", label: "Awards" },
   ];
 
-  const handleImageClick = (src: string, alt: string) => {
+  const handleImageClick = (src: string, alt: string, index: number) => {
     setSelectedImage({ src, alt });
+    setCurrentImageIndex(index);
   };
 
   const closeModal = () => {
     setSelectedImage(null);
   };
 
+  const navigateImage = (direction: 'next' | 'prev') => {
+    const images = galleryData[activeCategory as keyof typeof galleryData];
+    if (!images || images.length === 0) return;
+    
+    let newIndex = currentImageIndex;
+    if (direction === 'next') {
+      newIndex = (currentImageIndex + 1) % images.length;
+    } else {
+      newIndex = (currentImageIndex - 1 + images.length) % images.length;
+    }
+    
+    const newImage = images[newIndex];
+    setCurrentImageIndex(newIndex);
+    setSelectedImage({ 
+      src: `${newImage.src}?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80`, 
+      alt: newImage.alt 
+    });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 50) {
+      // Swipe left
+      navigateImage('next');
+    } else if (touchEnd - touchStart > 50) {
+      // Swipe right
+      navigateImage('prev');
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!selectedImage) return;
+
+      if (e.key === 'Escape') {
+        closeModal();
+      } else if (e.key === 'ArrowRight') {
+        navigateImage('next');
+      } else if (e.key === 'ArrowLeft') {
+        navigateImage('prev');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedImage, currentImageIndex, activeCategory]);
+
   return (
-    <div className="pt-24 pb-16">
-      <div className="container">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Explore memories from our alumni events, campus activities, and community initiatives through the years.
-          </p>
-        </motion.div>
-
-        {/* Category Filters */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                activeCategory === category.id
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted hover:bg-muted/80 text-foreground"
-              }`}
-            >
-              {category.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {galleryData[activeCategory as keyof typeof galleryData]?.map((image, index) => (
-            <motion.div
-              key={image.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="overflow-hidden rounded-lg shadow-sm aspect-square cursor-pointer group"
-              onClick={() => handleImageClick(`${image.src}?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80`, image.alt)}
-            >
-              <div className="w-full h-full relative">
-                <img
-                  src={`${image.src}?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80`}
-                  alt={image.alt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <p className="text-white text-sm font-medium">{image.alt}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Lightbox Modal */}
-        {selectedImage && (
-          <div 
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-            onClick={closeModal}
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-grow pt-24 pb-16">
+        <div className="container">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="relative max-w-5xl max-h-[90vh]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                className="max-w-full max-h-[80vh] object-contain"
-              />
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Explore memories from our alumni events, campus activities, and community initiatives through the years.
+            </p>
+          </motion.div>
+
+          {/* Category Filters */}
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {categories.map((category) => (
               <button
-                onClick={closeModal}
-                className="absolute top-4 right-4 bg-black/50 rounded-full p-2 text-white hover:bg-black/70 transition-colors"
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                  activeCategory === category.id
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted hover:bg-muted/80 text-foreground"
+                }`}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                {category.label}
               </button>
-              <p className="text-white text-center mt-4 text-lg">{selectedImage.alt}</p>
-            </motion.div>
+            ))}
           </div>
-        )}
-      </div>
+
+          {/* Gallery Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {galleryData[activeCategory as keyof typeof galleryData]?.map((image, index) => (
+              <motion.div
+                key={image.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                className="overflow-hidden rounded-lg shadow-sm aspect-square cursor-pointer group"
+                onClick={() => handleImageClick(`${image.src}?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80`, image.alt, index)}
+              >
+                <div className="w-full h-full relative">
+                  <img
+                    src={`${image.src}?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80`}
+                    alt={image.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <p className="text-white text-sm font-medium">{image.alt}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Lightbox Modal */}
+          <AnimatePresence>
+            {selectedImage && (
+              <div 
+                className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+                onClick={closeModal}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative max-w-5xl max-h-[90vh]"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src={selectedImage.src}
+                    alt={selectedImage.alt}
+                    className="max-w-full max-h-[80vh] object-contain"
+                  />
+                  
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      closeModal();
+                    }}
+                    className="absolute top-4 right-4 bg-black/50 rounded-full p-2 text-white hover:bg-black/70 transition-colors"
+                    aria-label="Close"
+                  >
+                    <X className="h-6 w-6" />
+                  </button>
+                  
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigateImage('prev');
+                    }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 rounded-full p-2 text-white hover:bg-black/70 transition-colors"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+                  
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigateImage('next');
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 rounded-full p-2 text-white hover:bg-black/70 transition-colors"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                  
+                  <p className="text-white text-center mt-4 text-lg">{selectedImage.alt}</p>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 };

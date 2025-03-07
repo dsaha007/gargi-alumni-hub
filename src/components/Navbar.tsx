@@ -82,6 +82,7 @@ const Navbar = () => {
           className="md:hidden z-10 focus:outline-none"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
         >
           {isMobileMenuOpen ? (
             <X className={cn(
@@ -99,8 +100,10 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div
           className={cn(
-            "fixed inset-0 bg-background flex flex-col items-center justify-center z-[5] transition-opacity duration-300 md:hidden",
-            isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            "fixed inset-0 bg-background flex flex-col items-center justify-center z-[5] transition-all duration-300 md:hidden",
+            isMobileMenuOpen 
+              ? "opacity-100 pointer-events-auto translate-x-0" 
+              : "opacity-0 pointer-events-none translate-x-full"
           )}
         >
           <nav className="flex flex-col items-center space-y-6 py-8">

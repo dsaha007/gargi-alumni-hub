@@ -1,4 +1,6 @@
-
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Calendar, Clock, MapPin, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -63,113 +65,119 @@ const Events = () => {
   ];
 
   return (
-    <div className="pt-24 pb-16">
-      <div className="container">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Alumni Events</h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Stay connected with your alma mater through our diverse range of events designed to bring the GMIT community together.
-          </p>
-        </motion.div>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-grow pt-24 pb-16">
+        <div className="container">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Alumni Events</h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Stay connected with your alma mater through our diverse range of events designed to bring the GMIT community together.
+            </p>
+          </motion.div>
 
-        <Tabs defaultValue="upcoming" className="mb-16">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
-            <TabsTrigger value="upcoming">Upcoming Events</TabsTrigger>
-            <TabsTrigger value="past">Past Events</TabsTrigger>
-          </TabsList>
-          <TabsContent value="upcoming" className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {upcomingEvents.map((event, index) => (
-                <motion.div 
-                  key={event.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-card rounded-lg overflow-hidden shadow-sm"
-                >
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={event.image} 
-                      alt={event.title} 
-                      className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-                    <div className="flex items-center text-muted-foreground mb-2">
-                      <Calendar className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{event.date}</span>
+          <Tabs defaultValue="upcoming" className="mb-16">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
+              <TabsTrigger value="upcoming">Upcoming Events</TabsTrigger>
+              <TabsTrigger value="past">Past Events</TabsTrigger>
+            </TabsList>
+            <TabsContent value="upcoming" className="mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {upcomingEvents.map((event, index) => (
+                  <motion.div 
+                    key={event.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-card rounded-lg overflow-hidden shadow-sm"
+                  >
+                    <div className="h-48 overflow-hidden">
+                      <img 
+                        src={event.image} 
+                        alt={event.title} 
+                        className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
+                      />
                     </div>
-                    <div className="flex items-center text-muted-foreground mb-2">
-                      <Clock className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{event.time}</span>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                      <div className="flex items-center text-muted-foreground mb-2">
+                        <Calendar className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{event.date}</span>
+                      </div>
+                      <div className="flex items-center text-muted-foreground mb-2">
+                        <Clock className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{event.time}</span>
+                      </div>
+                      <div className="flex items-center text-muted-foreground mb-4">
+                        <MapPin className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{event.location}</span>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-6">{event.description}</p>
+                      <Button variant="default" size="sm">Register Now</Button>
                     </div>
-                    <div className="flex items-center text-muted-foreground mb-4">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{event.location}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </TabsContent>
+            <TabsContent value="past" className="mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {pastEvents.map((event, index) => (
+                  <motion.div 
+                    key={event.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-card rounded-lg overflow-hidden shadow-sm"
+                  >
+                    <div className="h-48 overflow-hidden">
+                      <img 
+                        src={event.image} 
+                        alt={event.title} 
+                        className="w-full h-full object-cover transition-transform hover:scale-105 duration-500 opacity-80"
+                      />
                     </div>
-                    <p className="text-muted-foreground text-sm mb-6">{event.description}</p>
-                    <Button variant="default" size="sm">Register Now</Button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="past" className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {pastEvents.map((event, index) => (
-                <motion.div 
-                  key={event.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-card rounded-lg overflow-hidden shadow-sm"
-                >
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={event.image} 
-                      alt={event.title} 
-                      className="w-full h-full object-cover transition-transform hover:scale-105 duration-500 opacity-80"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-                    <div className="flex items-center text-muted-foreground mb-2">
-                      <CalendarDays className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{event.date}</span>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                      <div className="flex items-center text-muted-foreground mb-2">
+                        <CalendarDays className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{event.date}</span>
+                      </div>
+                      <div className="flex items-center text-muted-foreground mb-4">
+                        <MapPin className="h-4 w-4 mr-2" />
+                        <span className="text-sm">{event.location}</span>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-6">{event.description}</p>
+                      <Button variant="outline" size="sm">View Gallery</Button>
                     </div>
-                    <div className="flex items-center text-muted-foreground mb-4">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      <span className="text-sm">{event.location}</span>
-                    </div>
-                    <p className="text-muted-foreground text-sm mb-6">{event.description}</p>
-                    <Button variant="outline" size="sm">View Gallery</Button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+                  </motion.div>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="bg-gmit-50 rounded-lg p-8 text-center"
-        >
-          <h2 className="text-2xl font-bold mb-4">Have an event idea?</h2>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            We're always looking for fresh ideas to bring our alumni community together. 
-            If you have a suggestion for an event, we'd love to hear from you!
-          </p>
-          <Button variant="default">Submit Event Proposal</Button>
-        </motion.div>
-      </div>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="bg-gmit-50 rounded-lg p-8 text-center"
+          >
+            <h2 className="text-2xl font-bold mb-4">Have an event idea?</h2>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              We're always looking for fresh ideas to bring our alumni community together. 
+              If you have a suggestion for an event, we'd love to hear from you!
+            </p>
+            <Button variant="default">Submit Event Proposal</Button>
+          </motion.div>
+        </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 };
