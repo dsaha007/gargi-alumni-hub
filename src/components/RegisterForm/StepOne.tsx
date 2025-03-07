@@ -1,60 +1,22 @@
-
-import { useState } from "react";
-import { Control, UseFormReturn } from "react-hook-form";
-import { Calendar, Upload } from "lucide-react";
-import { format } from "date-fns";
-import { z } from "zod";
-
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-
-import { FormValues, departments, graduationYears } from "./schema";
+import React from "react";
+import { UseFormReturn } from "react-hook-form";
+import { FormValues } from "./schema";
 
 interface StepOneProps {
   form: UseFormReturn<FormValues>;
-  onSubmit: () => void;
+  onSubmit: (data: FormValues) => void;
   resumeFileName: string;
-  setResumeFileName: (name: string) => void;
+  setResumeFileName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const StepOne = ({ form, onSubmit, resumeFileName, setResumeFileName }: StepOneProps) => {
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      setResumeFileName(files[0].name);
-    } else {
-      setResumeFileName("");
-    }
-    form.setValue("resume", e.target.files as FileList, { shouldValidate: true });
-  };
+  const handleSubmit = form.handleSubmit(onSubmit);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
@@ -252,7 +214,6 @@ const StepOne = ({ form, onSubmit, resumeFileName, setResumeFileName }: StepOneP
           />
         </div>
 
-        {/* PDF Resume Upload Field */}
         <FormField
           control={form.control}
           name="resume"

@@ -1,7 +1,7 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import RegisterForm from "@/components/RegisterForm";
+import RegisterForm from "@/components/RegisterForm"; // Updated import path
 import { Separator } from "@/components/ui/separator";
 
 const Register = () => {
