@@ -32,6 +32,11 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Helper function to determine if a path is active
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <header 
       className={cn(
@@ -51,23 +56,23 @@ const Navbar = () => {
               key={link.text}
               to={link.href}
               className={cn(
-                "text-sm font-medium animated-underline transition-colors",
-                isScrolled || location.pathname !== "/" 
-                  ? "text-foreground" 
-                  : "text-foreground/90"
+                "text-sm font-medium transition-colors relative",
+                isActive(link.href) 
+                  ? "text-primary" 
+                  : isScrolled || location.pathname !== "/"
+                    ? "text-foreground hover:text-primary" 
+                    : "text-foreground/90 hover:text-primary"
               )}
             >
               {link.text}
+              {isActive(link.href) && (
+                <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-primary rounded-full"></span>
+              )}
             </Link>
           ))}
           <Link to="/register">
             <Button variant="default" size="sm" className="ml-4">
               Register
-            </Button>
-          </Link>
-          <Link to="/admin/login">
-            <Button variant="outline" size="sm">
-              Admin
             </Button>
           </Link>
         </nav>
@@ -103,7 +108,10 @@ const Navbar = () => {
               <Link
                 key={link.text}
                 to={link.href}
-                className="text-foreground text-lg font-medium"
+                className={cn(
+                  "text-lg font-medium",
+                  isActive(link.href) ? "text-primary" : "text-foreground"
+                )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.text}
@@ -113,11 +121,6 @@ const Navbar = () => {
               <Link to="/register" className="w-40">
                 <Button variant="default" className="w-full">
                   Register
-                </Button>
-              </Link>
-              <Link to="/admin/login" className="w-40">
-                <Button variant="outline" className="w-full">
-                  Admin
                 </Button>
               </Link>
             </div>

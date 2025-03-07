@@ -9,7 +9,7 @@ const Register = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow py-12 px-4">
+      <main className="flex-grow pt-24 pb-12 px-4">
         <div className="container mx-auto max-w-3xl">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold">Alumni Registration</h1>

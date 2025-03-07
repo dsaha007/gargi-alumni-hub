@@ -3,7 +3,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Calendar, CheckCircle } from "lucide-react";
+import { Calendar, CheckCircle, Upload } from "lucide-react";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 // Create a form schema using zod
 const formSchema = z.object({
@@ -49,6 +50,26 @@ const formSchema = z.object({
   }),
   address: z.string().min(1, "Please enter your address"),
   message: z.string().optional(),
+  resume: z
+    .instanceof(FileList)
+    .refine((files) => files.length === 0 || files.length === 1, "Please upload only one file")
+    .refine(
+      (files) => {
+        if (files.length === 0) return true;
+        const file = files[0];
+        return file.type === "application/pdf";
+      },
+      "Only PDF files are accepted"
+    )
+    .refine(
+      (files) => {
+        if (files.length === 0) return true;
+        const file = files[0];
+        return file.size <= 5 * 1024 * 1024; // 5 MB in bytes
+      },
+      "File size must be less than 5MB"
+    )
+    .optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -68,6 +89,7 @@ const graduationYears = Array.from({ length: 30 }, (_, i) => (new Date().getFull
 
 const RegisterForm = () => {
   const [step, setStep] = useState(1);
+  const [resumeFileName, setResumeFileName] = useState("");
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -88,9 +110,27 @@ const RegisterForm = () => {
   
   const onSubmit = (data: FormValues) => {
     console.log("Form data:", data);
+    
+    // Check if resume was provided and log file info
+    if (data.resume && data.resume.length > 0) {
+      const file = data.resume[0];
+      console.log("Resume:", file.name, file.type, `${(file.size / 1024 / 1024).toFixed(2)} MB`);
+      toast.success(`Resume "${file.name}" uploaded successfully`);
+    }
+    
     // In a real app, we would submit to an API here
     // Then move to payment step
     setStep(2);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setResumeFileName(files[0].name);
+    } else {
+      setResumeFileName("");
+    }
+    form.setValue("resume", e.target.files as FileList, { shouldValidate: true });
   };
   
   return (
@@ -333,6 +373,56 @@ const RegisterForm = () => {
                 )}
               />
             </div>
+
+            {/* PDF Resume Upload Field */}
+            <FormField
+              control={form.control}
+              name="resume"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Resume/CV (PDF)</FormLabel>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="file"
+                      id="resume"
+                      accept=".pdf"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="flex-grow-0"
+                      onClick={() => document.getElementById("resume")?.click()}
+                    >
+                      <Upload className="h-4 w-4 mr-2" /> Select PDF
+                    </Button>
+                    <div className="flex-grow border rounded-md px-3 py-2 text-sm truncate">
+                      {resumeFileName ? resumeFileName : "No file selected"}
+                    </div>
+                    {resumeFileName && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setResumeFileName("");
+                          form.setValue("resume", undefined, { shouldValidate: true });
+                          const fileInput = document.getElementById("resume") as HTMLInputElement;
+                          if (fileInput) fileInput.value = "";
+                        }}
+                      >
+                        Clear
+                      </Button>
+                    )}
+                  </div>
+                  <FormDescription>
+                    Upload your resume in PDF format (max 5MB)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             
             <FormField
               control={form.control}
