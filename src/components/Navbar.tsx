@@ -31,6 +31,13 @@ const Navbar = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+  
+  const isActive = (path: string) => {
+    if (path === "/" && location.pathname === "/") {
+      return true;
+    }
+    return location.pathname === path || (path !== "/" && location.pathname.startsWith(path));
+  };
 
   return (
     <header 
@@ -51,10 +58,12 @@ const Navbar = () => {
               key={link.text}
               to={link.href}
               className={cn(
-                "text-sm font-medium animated-underline transition-colors",
-                isScrolled || location.pathname !== "/" 
-                  ? "text-foreground" 
-                  : "text-foreground/90"
+                "text-sm font-medium transition-colors relative",
+                isActive(link.href) 
+                  ? "text-primary font-semibold after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-0.5 after:bg-primary"
+                  : (isScrolled || location.pathname !== "/" 
+                    ? "text-foreground" 
+                    : "text-foreground/90")
               )}
             >
               {link.text}
@@ -65,11 +74,7 @@ const Navbar = () => {
               Register
             </Button>
           </Link>
-          <Link to="/admin/login">
-            <Button variant="outline" size="sm">
-              Admin
-            </Button>
-          </Link>
+          {/* Admin login button removed */}
         </nav>
         
         {/* Mobile Menu Button */}
@@ -103,7 +108,10 @@ const Navbar = () => {
               <Link
                 key={link.text}
                 to={link.href}
-                className="text-foreground text-lg font-medium"
+                className={cn(
+                  "text-lg font-medium",
+                  isActive(link.href) ? "text-primary font-semibold" : "text-foreground"
+                )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.text}
@@ -115,11 +123,7 @@ const Navbar = () => {
                   Register
                 </Button>
               </Link>
-              <Link to="/admin/login" className="w-40">
-                <Button variant="outline" className="w-full">
-                  Admin
-                </Button>
-              </Link>
+              {/* Admin login button removed */}
             </div>
           </nav>
         </div>

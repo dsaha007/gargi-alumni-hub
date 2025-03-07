@@ -1,9 +1,8 @@
-
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Calendar, CheckCircle } from "lucide-react";
+import { Calendar, CheckCircle, FileText, Upload } from "lucide-react";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
@@ -32,6 +31,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 // Create a form schema using zod
 const formSchema = z.object({
@@ -68,6 +68,8 @@ const graduationYears = Array.from({ length: 30 }, (_, i) => (new Date().getFull
 
 const RegisterForm = () => {
   const [step, setStep] = useState(1);
+  const [resumePdf, setResumePdf] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState<string | null>(null);
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -86,8 +88,34 @@ const RegisterForm = () => {
     },
   });
   
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setResumeError(null);
+    
+    if (!file) {
+      return;
+    }
+    
+    // Check if file is a PDF
+    if (file.type !== 'application/pdf') {
+      setResumeError('Please upload a PDF file');
+      return;
+    }
+    
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setResumeError('File size should be less than 5MB');
+      return;
+    }
+    
+    setResumePdf(file);
+    toast.success('Resume uploaded successfully');
+  };
+  
   const onSubmit = (data: FormValues) => {
     console.log("Form data:", data);
+    console.log("Resume PDF:", resumePdf);
+    
     // In a real app, we would submit to an API here
     // Then move to payment step
     setStep(2);
@@ -352,6 +380,65 @@ const RegisterForm = () => {
               )}
             />
             
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <label className="text-sm font-medium">Resume/CV (PDF)</label>
+                <span className="text-xs text-muted-foreground">Max size: 5MB</span>
+              </div>
+              <div className={cn(
+                "border-2 border-dashed rounded-md p-6 transition-colors",
+                resumeError ? "border-destructive" : resumePdf ? "border-primary/50 bg-primary/5" : "border-muted-foreground/25"
+              )}>
+                {resumePdf ? (
+                  <div className="flex flex-col items-center justify-center text-center space-y-2">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+                      <FileText className="h-5 w-5 text-primary" />
+                    </div>
+                    <div className="text-sm font-medium">{resumePdf.name}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {(resumePdf.size / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setResumePdf(null)}
+                    >
+                      Replace File
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center text-center space-y-2">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-muted">
+                      <Upload className="h-5 w-5 text-muted-foreground" />
+                    </div>
+                    <div className="text-sm font-medium">Drag and drop or click to upload</div>
+                    <div className="text-xs text-muted-foreground">
+                      Upload your resume or CV in PDF format
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => document.getElementById('resume-upload')?.click()}
+                    >
+                      Select File
+                    </Button>
+                    <input
+                      id="resume-upload"
+                      type="file"
+                      accept=".pdf,application/pdf"
+                      className="hidden"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                )}
+              </div>
+              {resumeError && (
+                <p className="text-sm font-medium text-destructive">{resumeError}</p>
+              )}
+            </div>
+            
             <FormField
               control={form.control}
               name="message"
@@ -373,12 +460,18 @@ const RegisterForm = () => {
               )}
             />
             
-            <Button type="submit" className="w-full">Continue to Payment</Button>
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={!!resumeError}
+            >
+              Continue to Payment
+            </Button>
           </form>
         </Form>
       )}
       
-      {/* Step 2: Payment (This would be replaced with a real payment integration) */}
+      {/* Step 2: Payment */}
       {step === 2 && (
         <div className="bg-white p-6 rounded-xl border border-border/50 shadow-sm">
           <h3 className="text-xl font-semibold mb-4">Membership Payment</h3>
