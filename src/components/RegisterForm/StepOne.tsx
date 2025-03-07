@@ -1,8 +1,38 @@
-import { Form } from "@/components/ui/form";
+
+import { useState } from "react";
+import { Control, UseFormReturn } from "react-hook-form";
+import { Calendar, Upload } from "lucide-react";
+import { format } from "date-fns";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
-import React from "react";
-import { UseFormReturn } from "react-hook-form";
-import { FormValues } from "./schema";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+
+import { FormValues, departments, graduationYears } from "./schema";
 
 interface StepOneProps {
   form: UseFormReturn<FormValues>;
@@ -12,6 +42,16 @@ interface StepOneProps {
 }
 
 const StepOne = ({ form, onSubmit, resumeFileName, setResumeFileName }: StepOneProps) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setResumeFileName(files[0].name);
+    } else {
+      setResumeFileName("");
+    }
+    form.setValue("resume", e.target.files as FileList, { shouldValidate: true });
+  };
+
   const handleSubmit = form.handleSubmit(onSubmit);
 
   return (
