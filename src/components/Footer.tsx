@@ -116,7 +116,11 @@ const Footer = () => {
           <p className="text-muted-foreground text-sm">
             © {currentYear} GMIT Alumni Association. All rights reserved.
           </p>
-          {/* Admin login link removed */}
+          <div className="mt-4 md:mt-0">
+            <Link to="/admin/login" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              Admin Login
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
