@@ -51,7 +51,7 @@ const galleryData = {
 
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedImage, setSelectedImage] = useState<null | { src: string; alt: string }>(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
@@ -67,7 +67,7 @@ const Gallery = () => {
     { id: "awards", label: "Awards" },
   ];
 
-  const handleImageClick = (src: string, alt: string, index: number) => {
+  const handleImageClick = (src, alt, index) => {
     setSelectedImage({ src, alt });
     setCurrentImageIndex(index);
   };
@@ -76,8 +76,8 @@ const Gallery = () => {
     setSelectedImage(null);
   };
 
-  const navigateImage = (direction: 'next' | 'prev') => {
-    const images = galleryData[activeCategory as keyof typeof galleryData];
+  const navigateImage = (direction) => {
+    const images = galleryData[activeCategory];
     if (!images || images.length === 0) return;
     
     let newIndex = currentImageIndex;
@@ -95,11 +95,11 @@ const Gallery = () => {
     });
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = (e) => {
     setTouchStart(e.targetTouches[0].clientX);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchMove = (e) => {
     setTouchEnd(e.targetTouches[0].clientX);
   };
 
@@ -114,7 +114,7 @@ const Gallery = () => {
   };
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e) => {
       if (!selectedImage) return;
 
       if (e.key === 'Escape') {
@@ -167,7 +167,7 @@ const Gallery = () => {
 
           {/* Gallery Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {galleryData[activeCategory as keyof typeof galleryData]?.map((image, index) => (
+            {galleryData[activeCategory]?.map((image, index) => (
               <motion.div
                 key={image.id}
                 initial={{ opacity: 0, scale: 0.9 }}

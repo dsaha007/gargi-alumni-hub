@@ -72,8 +72,6 @@ const formSchema = z.object({
     .optional(),
 });
 
-type FormValues = z.infer<typeof formSchema>;
-
 const departments = [
   "Computer Science & Engineering",
   "Information Technology",
@@ -91,7 +89,7 @@ const RegisterForm = () => {
   const [step, setStep] = useState(1);
   const [resumeFileName, setResumeFileName] = useState("");
   
-  const form = useForm<FormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
@@ -108,7 +106,7 @@ const RegisterForm = () => {
     },
   });
   
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data) => {
     console.log("Form data:", data);
     
     // Check if resume was provided and log file info
@@ -123,14 +121,14 @@ const RegisterForm = () => {
     setStep(2);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       setResumeFileName(files[0].name);
     } else {
       setResumeFileName("");
     }
-    form.setValue("resume", e.target.files as FileList, { shouldValidate: true });
+    form.setValue("resume", e.target.files, { shouldValidate: true });
   };
   
   return (
@@ -408,7 +406,7 @@ const RegisterForm = () => {
                         onClick={() => {
                           setResumeFileName("");
                           form.setValue("resume", undefined, { shouldValidate: true });
-                          const fileInput = document.getElementById("resume") as HTMLInputElement;
+                          const fileInput = document.getElementById("resume");
                           if (fileInput) fileInput.value = "";
                         }}
                       >

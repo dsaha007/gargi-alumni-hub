@@ -1,10 +1,5 @@
-import { AlumniUser } from "@/lib/mockData";
 
-interface UserTableProps {
-  filteredData: AlumniUser[];
-}
-
-const UserTable = ({ filteredData }: UserTableProps) => {
+const UserTable = ({ filteredData }) => {
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse">
