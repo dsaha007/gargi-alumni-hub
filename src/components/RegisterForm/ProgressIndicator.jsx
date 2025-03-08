@@ -2,7 +2,11 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-const ProgressIndicator = ({ step }) => {
+interface ProgressIndicatorProps {
+  step: number;
+}
+
+const ProgressIndicator = ({ step }: ProgressIndicatorProps) => {
   return (
     <div className="flex justify-between items-center mb-8">
       <div className="flex items-center">

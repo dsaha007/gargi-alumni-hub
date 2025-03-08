@@ -39,6 +39,8 @@ export const formSchema = z.object({
     .optional(),
 });
 
+export type FormValues = z.infer<typeof formSchema>;
+
 export const departments = [
   "Computer Science & Engineering",
   "Information Technology",

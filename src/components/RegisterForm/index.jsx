@@ -14,7 +14,7 @@ const RegisterForm = () => {
   const [step, setStep] = useState(1);
   const [resumeFileName, setResumeFileName] = useState("");
   
-  const form = useForm({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
@@ -31,7 +31,7 @@ const RegisterForm = () => {
     },
   });
   
-  const onSubmit = (data) => {
+  const onSubmit = (data: FormValues) => {
     console.log("Form data:", data);
     
     // Check if resume was provided and log file info

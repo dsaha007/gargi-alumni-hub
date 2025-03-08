@@ -3,7 +3,11 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const StepTwo = ({ onContinue }) => {
+interface StepTwoProps {
+  onContinue: () => void;
+}
+
+const StepTwo = ({ onContinue }: StepTwoProps) => {
   return (
     <div className="bg-white p-6 rounded-xl border border-border/50 shadow-sm">
       <h3 className="text-xl font-semibold mb-4">Membership Payment</h3>

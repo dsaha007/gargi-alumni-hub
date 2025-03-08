@@ -1,5 +1,18 @@
 
-export const mockAlumniData = [
+export interface AlumniUser {
+  id: string;
+  name: string;
+  email: string;
+  batch: number;
+  department: string;
+  jobTitle: string;
+  company: string;
+  location: string;
+  registrationDate: string;
+  paymentStatus: 'Paid' | 'Pending' | 'Failed';
+}
+
+export const mockAlumniData: AlumniUser[] = [
   {
     id: "ALM001",
     name: "Rahul Sharma",
