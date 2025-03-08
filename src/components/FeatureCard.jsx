@@ -1,14 +1,5 @@
 
-import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-
-interface FeatureCardProps {
-  icon: ReactNode;
-  title: string;
-  description: string;
-  className?: string;
-  iconClassName?: string;
-}
 
 const FeatureCard = ({
   icon,
@@ -16,7 +7,7 @@ const FeatureCard = ({
   description,
   className,
   iconClassName,
-}: FeatureCardProps) => {
+}) => {
   return (
     <div
       className={cn(

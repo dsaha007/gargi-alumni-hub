@@ -2,15 +2,7 @@
 import { Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface TestimonialCardProps {
-  image: string;
-  name: string;
-  batch: string;
-  quote: string;
-  className?: string;
-}
-
-const TestimonialCard = ({ image, name, batch, quote, className }: TestimonialCardProps) => {
+const TestimonialCard = ({ image, name, batch, quote, className }) => {
   return (
     <div className={cn("relative group overflow-hidden rounded-lg", className)}>
       <div 

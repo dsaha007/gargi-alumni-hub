@@ -1,17 +1,6 @@
 
 import { cn } from "@/lib/utils";
 
-interface AlumniProfileCardProps {
-  image: string;
-  name: string;
-  department: string;
-  batch: string;
-  company: string;
-  position: string;
-  description: string;
-  className?: string;
-}
-
 const AlumniProfileCard = ({
   image,
   name,
@@ -21,7 +10,7 @@ const AlumniProfileCard = ({
   position,
   description,
   className,
-}: AlumniProfileCardProps) => {
+}) => {
   return (
     <div className={cn(
       "border border-border/50 rounded-lg overflow-hidden hover:shadow-elegant transition-all duration-300",

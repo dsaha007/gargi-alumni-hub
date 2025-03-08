@@ -1,16 +1,6 @@
 
 import { cn } from "@/lib/utils";
-import { useEffect, useState, ReactNode } from "react";
-
-interface StatCardProps {
-  value: number;
-  label: string;
-  prefix?: string;
-  suffix?: string;
-  className?: string;
-  duration?: number;
-  icon?: ReactNode;
-}
+import { useEffect, useState } from "react";
 
 const StatCard = ({
   value,
@@ -20,7 +10,7 @@ const StatCard = ({
   className,
   duration = 2000,
   icon
-}: StatCardProps) => {
+}) => {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   

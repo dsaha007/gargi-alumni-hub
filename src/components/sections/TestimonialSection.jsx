@@ -32,9 +32,9 @@ const testimonials = [
 
 const TestimonialSection = () => {
   const [activeTestimonialIndex, setActiveTestimonialIndex] = useState(0);
-  const testimonialRef = useRef<HTMLDivElement>(null);
+  const testimonialRef = useRef(null);
 
-  const navigateTestimonial = (direction: 'next' | 'prev') => {
+  const navigateTestimonial = (direction) => {
     if (direction === 'next') {
       setActiveTestimonialIndex((prev) => 
         prev === testimonials.length - 1 ? 0 : prev + 1

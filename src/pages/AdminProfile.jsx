@@ -28,12 +28,12 @@ const AdminProfile = () => {
     setIsLoading(false);
   }, [navigate]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     if (formData.newPassword !== formData.confirmPassword) {

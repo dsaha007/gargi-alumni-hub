@@ -1,13 +1,7 @@
 
 import { cn } from "@/lib/utils";
 
-interface LogoProps {
-  className?: string;
-  monochrome?: boolean;
-  size?: "sm" | "md" | "lg";
-}
-
-const Logo = ({ className, monochrome = false, size = "md" }: LogoProps) => {
+const Logo = ({ className, monochrome = false, size = "md" }) => {
   const sizeClasses = {
     sm: "text-lg",
     md: "text-xl",

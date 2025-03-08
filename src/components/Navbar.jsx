@@ -33,7 +33,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   // Helper function to determine if a path is active
-  const isActive = (path: string) => {
+  const isActive = (path) => {
     return location.pathname === path;
   };
 
